@@ -1,0 +1,9 @@
+function add (a, b) {
+  const total = a + b;
+  return total;
+}
+add
+add
+add
+add()
+undefined + undefined
