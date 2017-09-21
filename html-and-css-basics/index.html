@@ -1,0 +1,112 @@
+<!-- DOCTYPE tells browser which version of HTML we're using -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hello</title>
+  </head>
+  <link
+    rel='stylesheet'
+    type='text/css'
+    href='css/index.css'
+  />
+
+  <style>
+  /* How do you select a link that's been visited? */
+  a:visited {}
+  /* How to select a div with a cursor on top? */
+  div:hover {}
+  /* How do you select an element with the attribute data-content? */
+  [data-content] {}
+  /* How do you select all child elements of ul, but the last? */
+  /* :not() is a pseudo-selector that takes argument which is another
+     selector. It will ignore the selectors given has arguments.
+  */
+  ul > *:not(:last-child) {}
+
+  </style>
+
+  <body>
+    <nav>
+      <!-- `a` tags will look and behave as link once there is an `href`
+           attribute. If the `href` attribute doesn't have value, the `a` will
+           link to the current page. If there is a url for the value, it
+           will link to that url.
+      -->
+      <a href='http://nyan.cat/fiesta'>Back</a>
+      <a href>Boards</a>
+      <!-- the `action` attribute describes where the data of the form
+           is submitted. In this case, current domain + /search
+           (e.g. http://example.com/search, http://localhost/search)
+
+           the `method` attribute is a http verb. It describes whether
+           we want to read (get) something or create (post) something
+           from a server.
+      -->
+      <form class='search-field' action='/search' method='get'>
+        <!-- the default type of an input element is `text` -->
+        <!-- The `placeholder` attribute shows a default text in the
+             field until the users types something -->
+        <input name='query' placeholder='Search query here...'/>
+        <!-- For the input of type submit, value is used as the button's name -->
+        <input type='submit' value='Search'/>
+      </form>
+      <a href>Hello</a>
+      <a href>Create</a>
+      <a href>Information</a>
+      <a href>Notifications</a>
+      <a href>Profile</a>
+
+
+    </nav>
+
+    <!-- we use the `main` element to hold the primary content the user
+         is here to consume -->
+    <main>
+      <!-- the `id` attribute works for all elements. It is a unique
+           identifier. No id should be duplicated on the page. NONE!
+      -->
+      <section id='starred-boards'>
+        <h1>Starred Boards</h1>
+        <!-- Here we're use a `class` instead of an `id`, because it
+             describes this `ul` in more generic and there will be more
+             than one `board-list` on the page. We'll also use it to select
+             this element when styling it -->
+        <ul class='board-list'>
+          <!-- special characters in HTML can be respresented by
+               the format `&<char-name>;` (e.g. & 👉 &amp; , < 👉 &lt; , etc)
+          -->
+          <li>&amp; Management</li>
+          <li style='background-image: url(images/sunrise-1756274_640.jpg);'>
+            <div>Learning to Hack</div>
+          </li>
+        </ul>
+      </section>
+
+      <section id='personal-boards'>
+        <h1>Personal Boards</h1>
+
+        <ul class='board-list'>
+          <li>Gutenberg Metaplan</li>
+          <li style='background-image: url(https://cdn.pixabay.com/photo/2017/08/23/08/33/cats-eyes-2671903_640.jpg);'>
+            <div>Learning to Code</div>
+          </li>
+          <li style='background-image: url(images/sunrise-1756274_640.jpg);'>
+            <div>Learning to Hack</div>
+          </li>
+          <li>My ideas</li>
+          <li>Create New Board...</li>
+      </section>
+    </main>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+<!-- -->
