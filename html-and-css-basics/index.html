@@ -1,29 +1,61 @@
 <!-- DOCTYPE tells browser which version of HTML we're using -->
+
+
+
+<!-- TODO: Tell class about mistake. Link and style not inside head. -->
+
+
+
 <!DOCTYPE html>
 <html>
   <head>
     <title>Hello</title>
+    <link
+      rel='stylesheet'
+      type='text/css'
+      href='css/index.css'
+    />
+
+    <style>
+    /* How do you select a link that's been visited? */
+    a:visited {}
+    /* How to select a div with a cursor on top? */
+    div:hover {}
+    /* How do you select an element with the attribute data-content? */
+    [data-content] {}
+    /* How do you select all child elements of ul, but the last? */
+    /* :not() is a pseudo-selector that takes argument which is another
+       selector. It will ignore the selectors given has arguments.
+    */
+    ul > *:not(:last-child) {}
+    </style>
+
+    <!-- To execute javascript, also use a script tag, but give it
+         a `src` attribute with a url (relative or absolute) to the
+         the file. -->
+
+    <!-- script are normally run the moment the browser gets to the tag.
+         This can take long if the file is large which is very common in modern
+         applications.
+
+         With the `async` attribute, we can tell browser to execute a
+         javascript file without blocking the render of the rest of the html or
+         blocking the executing of other javascript.
+
+         With the `defer` attribute, we can tell the browser to execute a file
+         in order and only once the entire document is rendered.
+    -->
+    <script src='js/index.js' async defer></script>
+    <script>
+    /* Use a `script` tag to inline javascript to an html document */
+    console.log('I\'m going to be on the screen! 😃');
+
+    function add (a, b) {
+      return a + b;
+    }
+    </script>
+
   </head>
-  <link
-    rel='stylesheet'
-    type='text/css'
-    href='css/index.css'
-  />
-
-  <style>
-  /* How do you select a link that's been visited? */
-  a:visited {}
-  /* How to select a div with a cursor on top? */
-  div:hover {}
-  /* How do you select an element with the attribute data-content? */
-  [data-content] {}
-  /* How do you select all child elements of ul, but the last? */
-  /* :not() is a pseudo-selector that takes argument which is another
-     selector. It will ignore the selectors given has arguments.
-  */
-  ul > *:not(:last-child) {}
-
-  </style>
 
   <body>
     <nav>
