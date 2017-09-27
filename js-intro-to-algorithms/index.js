@@ -153,7 +153,7 @@ function benchmarkFactorial () {
 
   console.time('Iterative');
   for (let i = 0; i < 100; i += 1) {
-    factorialIter(500);
+    factorialIter(5 00);
   }
   console.timeEnd('Iterative');
 }
