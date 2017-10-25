@@ -87,6 +87,13 @@ html * {
   flex-flow: column;
   justify-content: flex-end;
   align-items: center;
+
+  /* the `transition` property allows a node to gradually increment a css properties
+     value over a period of time given as the first argument. The second argument
+     is the property that will transition (`all` will work for all properties).
+     https://developer.mozilla.org/en-US/docs/Web/CSS/transition
+  */
+  transition: 0.25s transform, 0.5s filter;
 }
 
 .doggo > h1 {
@@ -101,6 +108,18 @@ html * {
 
 .doggo.fighter.hovered {
   filter: grayscale(1);
+}
+
+.invert {
+  filter: invert();
+}
+
+.rotate-180 {
+  transform: rotateZ(180deg);
+}
+
+.monochrome {
+  filter: grayscale();
 }
 
 #applicant-preview {

@@ -223,4 +223,219 @@ teamKhakiRoster.prepend(toxicTim);
 const toxicTimClone = toxicTim.cloneNode(true);
 teamKhakiRoster.prepend(toxicTim);
 
+// JS: EVENTS AND THE LOOP
+
+// .addEventListener is a method of Nodes.
+// It takes at least two arguments:
+// - A string named after an event. (e.g. 'click', 'submit', 'input', 'mouseenter'
+//   , 'mouseleave', 'keydown', 'keyup', etc)
+// - A callback function that will be run once the event is triggered.
+
+/*
+toxicTim.addEventListener('click', () => {
+  console.log('Toxic Tim was clicked!');
+});
+*/
+
+/*
+document.addEventListener('click', event => {
+  // EVENT OBJECT
+  // The callback passed to addEventListener is called with an event object
+  // that contains information about the state of the program related to
+  // the triggered at the time it happened.
+  //
+  // - the `target` node that originally triggered the event.
+  // - the `currentTarget` node is the node that was used with .addEventListener.
+  // - the time at which the event triggered
+  // - for mouse events, you can coordinates relative to the window and coordinates
+  //   relative to the page
+  // - for most events, you can know if alt, ctrl, shift or command was held at the time
+  // - for keyboard events, you can know which key was pressed
+  // - and, many many more...
+
+  console.log('The Document was clicked!');
+  console.log('target:', event.target);
+  console.log('currentTarget:', event.currentTarget);
+})
+*/
+
+/*
+document.addEventListener('click', function (event) {
+  console.log('target:', event.target);
+  console.log('currentTarget:', event.currentTarget);
+  console.log('this:', this);
+  // Inside addEventListener callback `this` is always bound to
+  // event.currentTarget. They are effectively the same.
+  // However, the `this` of functions is not always easily predicted
+  // and can be set before passing the function as callback. I recommend
+  // that you use `event.currentTarget` whenever possible.
+})
+*/
+
+/*
+GOOD!
+document.addEventListener('click', function (event) {
+  console.log(this) // `this` is event.currentTarget
+})
+
+BAD!
+document.addEventListener('click', event => {
+  console.log(this) // `this` is `window`
+})
+*/
+
+// DEMO: THE MOUSE & THE DOGGO
+
+document.querySelectorAll('.doggo').forEach(node => {
+  // `dblclick` should invert color of doggo
+  node.addEventListener('dblclick', event => {
+    // event.currentTarget.style.filter = 'invert()';
+    const {currentTarget} = event;
+    currentTarget.classList.toggle('invert');
+  });
+
+  // `mousedown` should rotate doggo 180deg
+  node.addEventListener('mousedown', event => {
+    const {currentTarget} = event;
+    currentTarget.classList.add('rotate-180');
+  })
+
+  // `mouseup` should remove rotation
+  node.addEventListener('mouseup', event => {
+    const {currentTarget} = event;
+    currentTarget.classList.remove('rotate-180');
+  })
+
+  // EXERCISE: Crouching Mouse Hidden Doggo
+
+  node.addEventListener('mouseenter', event => {
+    const {currentTarget} = event;
+    currentTarget.classList.add('monochrome');
+  })
+
+  node.addEventListener('mouseleave', event => {
+    const {currentTarget} = event;
+    currentTarget.classList.remove('monochrome');
+  })
+});
+
+// `mouseenter` triggers once when the cursor enters the `currentTarget`
+teamSalmon.addEventListener('mouseenter', event => {
+  console.log('Cursor entered Team Salmon')
+})
+
+// `mouseover` triggers everytime the `currentTarget` or any descendent of the
+// currentTarget is entered.
+teamSalmon.addEventListener('mouseover', event => {
+  console.log('Cursor overed Team Salmon')
+})
+
+// DEMO: Type loudly & explode on submit
+
+const random = n => Math.ceil(Math.random() * n);
+const playKey = () => new Audio(`sounds/vintage-keyboard-${random(5)}.wav`);
+
+document.querySelectorAll('#application-form input').forEach(node => {
+  node.addEventListener('input', event => {
+    console.log('value of input:', event.currentTarget.value);
+    playKey().play();
+  });
+})
+
+// The `submit` event only works on `form` nodes. It is triggered when
+// the form is submit in anyway.
+document
+  .querySelector('#application-form')
+  .addEventListener('submit', event => {
+  // To prevent a `form` from doing a web request (its default behaviour),
+  // use the `.preventDefault()` method on the event.
+  event.preventDefault();
+  console.log('Form is submitted!')
+  // How do we grab all the values of its descendent input fields?
+  const {currentTarget} = event;
+  const formValues = {};
+  // We can grab all of the input fields and put their name attribute and
+  // value attribute in an object. Or, ....
+  currentTarget.querySelectorAll('input').forEach(input => {
+    // this won't work for every field, because not all fields
+    // are built with the `input` tag. Some use `textarea`, `select`, etc.
+    formValues[input.name] = input.value;
+  })
+
+  // We can use the FormData constructor
+  window.fData = new FormData(currentTarget);
+  // In Chrome, the form data object always displays like so FormData {} as if
+  // its empty. Do not be deceived by that. If you put `name` attributes on
+  // your input fields, it should not be empty.
+
+  // Get values from the FormData object with .get and set them with .set.
+  fData.get('name') // Will get the value of the input field with the name `name`
+  fData.get('team-name') // Will get the value of the input field with the name `team-name`
+
+  fData.set('color', 'pink')
+  // Adds a new entry to the form data object with the name `color` and the
+  // value `pink`
+
+  // To get all values from the form data object, use the following:
+  Array.from(fData.values())
+  // ... all keys:
+  Array.from(fData.keys())
+  // ... everything:
+  Array.from(fData.entries())
+})
+
+// EXERCISE: Applicant's Avatar
+
+
+document
+  .querySelector('#application-form')
+  .addEventListener('submit', event => {
+    const formNode = event.currentTarget;
+
+    const fData = new FormData(formNode);
+    const pictureUrl = fData.get('picture-url');
+    // https://i.imgur.com/1a6i2Zh.gif
+    // https://i.imgur.com/EzQgJ37.gif
+
+    const blankDoggo = document.querySelector('#applicant-preview .doggo.blank');
+    blankDoggo.style.backgroundImage = `url(${pictureUrl})`;
+  })
+
+  // Keyboard events
+  // DEMO: Shortcut to nyan.cat and escape
+
+  document.addEventListener('keydown', event => {
+    const {altKey, ctrlKey, shiftKey, metaKey, key, keyCode} = event;
+    // console.log({altKey, ctrlKey, shiftKey, keyCode});
+
+    if (ctrlKey && altKey && keyCode === 78) {
+      // Use `String.fromCharCode` method to get the character
+      // associated to a key code. It will always be capitalized so be careful!
+      // usage: String.fromCharCode(78) // returns 'N'
+      console.log('Going to nyan.cat!');
+      window.location.href = 'http://www.nyan.cat';
+    }
+  });
+
+// EXERCISE: Shorcuts of the ninja
+// 3.
+
+let keyBuffer = '';
+document.addEventListener('keydown', event => {
+  const {altKey, ctrlKey, shiftKey, metaKey, key, keyCode} = event;
+
+  if (key.length > 1) return;
+
+  keyBuffer = (keyBuffer + key.toLowerCase()).slice(-5);
+  if (keyBuffer === 'panic') {
+    window.location.href = 'http://hackertyper.net';
+  }
+});
+
+
+
+
+
+
+
 // bump
