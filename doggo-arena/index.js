@@ -321,13 +321,13 @@ document.querySelectorAll('.doggo').forEach(node => {
 
 // `mouseenter` triggers once when the cursor enters the `currentTarget`
 teamSalmon.addEventListener('mouseenter', event => {
-  console.log('Cursor entered Team Salmon')
+  // console.log('Cursor entered Team Salmon')
 })
 
 // `mouseover` triggers everytime the `currentTarget` or any descendent of the
 // currentTarget is entered.
 teamSalmon.addEventListener('mouseover', event => {
-  console.log('Cursor overed Team Salmon')
+  // console.log('Cursor overed Team Salmon')
 })
 
 // DEMO: Type loudly & explode on submit
@@ -431,6 +431,49 @@ document.addEventListener('keydown', event => {
     window.location.href = 'http://hackertyper.net';
   }
 });
+
+// EVENT PROPAGATION
+
+// DOM event objects move in predefined throughout the DOM. They begin at the
+// eldest ancestor (namely #document) and trickle its children until it reaches
+// the `target` node. This is the CAPTURING phase.
+
+// Once an event reaches the `target` node, it is in a transitionary phase
+// referred to as `AT_TARGET`. Afterwards, the event bubbles up from parent to
+// parent recursively until in reaches the edlest ancestor again. This is the
+// BUBBLING phase and the default triggering order for event listeners.
+
+// Event listiners can be to triggered during the capturing phase instead which
+// reverse the order they trigger.
+
+function propagationHelper (node) {
+  const {currentTarget, eventPhase} = event;
+  const {id, className, tagName} = currentTarget;
+
+  // eventPhase can a number from 0 to 3
+  // Each represents which phase the event is currently at.
+  // 0 == NONE (Phases are complete)
+  // 1 == CAPTURE (Capturing phase)
+  // 2 == AT_TARGET (Event as reached the `target` node and is transitioning)
+  // 3 == BUBBLE (Bubbling phase)
+
+  if (tagName === 'DIV' && eventPhase === 3) {
+    // `event.stopPropagation()` can be used to prevent an event from spreading
+    // further. This can be used during the CAPTURING or during the BUBBLING
+    // and anywhere in between. This is very useful when we have a lot of
+    // listeners and we don't always want the parent node listeners to trigger.
+    event.stopPropagation();
+  }
+  console.log(` ${tagName}#${id}.${className} PHASE: ${eventPhase}`)
+}
+
+document.querySelectorAll('.doggo, .roster, .team, .teams, body').forEach(
+  node => {
+    node.addEventListener('click', propagationHelper, true)
+    node.addEventListener('click', propagationHelper)
+  }
+)
+
 
 
 
