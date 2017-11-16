@@ -4,6 +4,9 @@ import Square from './Square';
 import Box from './Box';
 import Shape from './Shape';
 import Greetings from './Greetings';
+import TaskList from './TaskList';
+import Search from './Search';
+import Timer from './Timer';
 
 function App (props) {
   const style = {
@@ -19,12 +22,17 @@ function App (props) {
       <HelloWorld name="Jon Snow" />
       <HelloWorld isBye name="Cersei Lannister" />
       <HelloWorld name="Arya Stark" />
+      <Timer />
+      <Search names={[
+        'Jon Snow', 'Cersei', 'Daenerys', 'Arya', 'Tommen', 'Varis', 'Tyrion', 'Jorah'
+      ]} />
+      <TaskList />
       <Square />
       <Square color="pink" />
       <Box />
       <Shape />
       <Shape type="circle" color="green" />
-      <Shape type="diamond" color="aqua" />
+      <Shape type="diamond" colors={['blue', 'red']} />
       <Greetings names={["Patsy", "Tim", "Arthur", "Pod", "Kevin", "Scarlet"]} />
     </div>
   );
